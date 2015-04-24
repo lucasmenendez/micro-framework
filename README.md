@@ -21,4 +21,4 @@ Little MVC framework to start working on any proyect
     define('SALT_PASSWORD', '<salt>');
 
     date_default_timezone_set('<timezone>');
-´´´
+```
