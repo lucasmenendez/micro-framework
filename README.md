@@ -10,7 +10,7 @@ Little MVC framework to start working on any proyect
 
 ### Installation
 1. Clone the repository
-2. Open app folder and create `config.php` file.
+2. Open `app` folder and create `config.php` file.
 3. Paste this content and change it according to the database data.
 ``` 
     define('DB_HOST', '<host>');
