@@ -1,5 +1,5 @@
 <?php
-	session_start();
+
 	include("app/config.php");
 
 	function __autoload($class){

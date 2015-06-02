@@ -17,10 +17,15 @@
 				$user = User::getByUsername($_POST['user_username']);
 				extract($_POST);
 
-				if ($user->user_username == $user_username && $user->user_password == sha1(md5($user_password))) {
+				if ($user->user_username == $user_username && $user->user_password == hash("sha512", md5($user_password)) {
 
-					$_SESSION['token'] = $user->user_token;
-					$_SESSION['username'] = $user_username;
+					$data = (object) array(
+						"username" => $username,
+						"expire" => time() + (60*30),
+						"token" => sha1(md5($username . (time() + (60*30)) ));
+					);
+
+					setcookie("session_data", json_encode($data), time() + (60 * 30), "/");
 					header("Location: index.php");
 					die();
  
@@ -43,11 +48,13 @@
 
 		public function profile() {
 
-			$user = User::getByUsername($_SESSION['username']);
+			$session = json_decode($_COOKIE['session_data']);
 
-			if ($user->user_token == $_SESSION['token']) {
+			if ($session->token == sha1(md5($session->username . $session->expire))) {
 
 				if (isset($_POST['action']) && $_POST['action'] == 'update') {
+
+					$user = User::getByUsername($session->username);
 
 					if ($user->user_password == sha1(md5($_POST['oldpassword']))) {
 
@@ -82,7 +89,7 @@
 
 		public function logout() {
 
-			session_destroy();
+			setcookie("session_data", "", time() - 3600);
 			header('Location: index.php');
 
 		}
