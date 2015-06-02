@@ -2,17 +2,15 @@
 
 	class User {
 
+		public $user_id;
 		public $user_username;
 		public $user_password;
-		public $user_id;
-		public $user_date_registered;
 
-		function __construct($user_id, $user_username = null, $user_password = null, $user_date_registered = null) {
+		function __construct($user_id = null, $user_username = null, $user_password = null) {
 
 			$this->user_id = $user_id;
 			$this->user_username = $user_username;
 			$this->user_password = $user_password;
-			$this->user_date_registered = $user_date_registered;
 
 		}
 
@@ -53,20 +51,6 @@
 
 			$db = new DB;
 			$db->run("SELECT * FROM users WHERE user_username = ?", array($username));
-			
-			$user = new User;
-			foreach ($db->result()[0] as $attr => $value) {
-				$user->$attr = $value;
-			}
-			
-			return $user;
-
-		}
-
-		public static function getByToken($token) {
-
-			$db = new DB;
-			$db->run("SELECT * FROM users WHERE user_id = ?", array($token));
 			
 			$user = new User;
 			foreach ($db->result()[0] as $attr => $value) {

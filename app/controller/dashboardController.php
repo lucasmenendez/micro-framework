@@ -17,15 +17,16 @@
 				$user = User::getByUsername($_POST['user_username']);
 				extract($_POST);
 
-				if ($user->user_username == $user_username && $user->user_password == hash("sha512", md5($user_password)) {
+				if ($user->user_username == $user_username && $user->user_password == hash("sha512", md5($user_password))) {
 
 					$data = (object) array(
-						"username" => $username,
+						"username" => $user_username,
 						"expire" => time() + (60*30),
-						"token" => sha1(md5($username . (time() + (60*30)) ));
+						"token" => sha1(md5($user_username . (time() + (60*30)) ))
 					);
 
 					setcookie("session_data", json_encode($data), time() + (60 * 30), "/");
+					$_SESSION['username'] = $user_username;
 					header("Location: index.php");
 					die();
  
@@ -52,9 +53,9 @@
 
 			if ($session->token == sha1(md5($session->username . $session->expire))) {
 
-				if (isset($_POST['action']) && $_POST['action'] == 'update') {
+				$user = User::getByUsername($session->username);
 
-					$user = User::getByUsername($session->username);
+				if (isset($_POST['action']) && $_POST['action'] == 'update') {
 
 					if ($user->user_password == sha1(md5($_POST['oldpassword']))) {
 
@@ -89,7 +90,9 @@
 
 		public function logout() {
 
-			setcookie("session_data", "", time() - 3600);
+			unset($_COOKIE['session_data']);
+			setcookie("session_data", null, (time() - 3600), "/");
+			session_destroy();
 			header('Location: index.php');
 
 		}

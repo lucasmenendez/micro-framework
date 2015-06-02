@@ -21,11 +21,11 @@
 
 		public function auth() {
 
-			if (isset($_SESSION['token']) && !empty($_SESSION['token'])) {
+			if (count($_COOKIE) > 0 && isset($_COOKIE['session_data'])) {
 
-				$user = User::getByUsername($_SESSION['username']);
+				$session = json_decode($_COOKIE['session_data']);
 
-				return $user->user_token == $_SESSION['token'];
+				return $session->token == sha1(md5($session->username . $session->expire));
 
 			}
 
