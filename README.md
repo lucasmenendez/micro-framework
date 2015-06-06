@@ -1,5 +1,5 @@
 # micro-framework
-Little MVC framework to start working on any proyect
+Little MVC framework to start working on any front&backend proyect
 
 ### Features
 - Error reporting

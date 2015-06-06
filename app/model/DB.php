@@ -48,7 +48,7 @@
 
 		}
 
-		public function lastID() {
+		public function lastId() {
 
 			return $this->connection->lastInsertId();
 
