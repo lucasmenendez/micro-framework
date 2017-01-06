@@ -16,7 +16,7 @@ Little MVC framework to start working on any front&backend proyect
     define('DB_HOST', '<host>');
     define('DB_USER', '<user>');
     define('DB_PASS', '<pass>');
-    define('DB_TABLE', '<table>');
+    define('DB_NAME', '<dbname>');
 
     define('SALT_PASSWORD', '<salt>');
 
