@@ -3,7 +3,7 @@
 	class DB{
 
 		private $host;
-		private $table;
+		private $db_name;
 		private $user;
 		private $pass;
 		
@@ -15,8 +15,8 @@
 			$this->host = DB_HOST;
 			$this->user = DB_USER;
 			$this->pass = DB_PASS;
-			$this->table = DB_TABLE;
-			$this->connection = new PDO("mysql:dbname=".$this->table."; host=".$this->host, $this->user, $this->pass, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+			$this->db_name = DB_NAME;
+			$this->connection = new PDO("mysql:dbname=".$this->db_name."; host=".$this->host, $this->user, $this->pass, array(PDO::ATTR_PERSISTENT => true, PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 			$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
