@@ -10,8 +10,9 @@ Little MVC framework to start working on any front&backend proyect
 
 ### Installation
 1. Clone the repository
-2. Open `app` folder and create `config.php` file.
-3. Paste this content and change it according to the database data.
+2. Create `./app/config.php` file.
+3. Create table in MySQL and excute `./users_table.sql`.
+4. Paste this content and change it according to the database data.
 ``` 
     define('DB_HOST', '<host>');
     define('DB_USER', '<user>');
