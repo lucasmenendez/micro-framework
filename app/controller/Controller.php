@@ -6,9 +6,17 @@
 			}
 
 			include("app/view/header.php");
-			if(isset($info)) $this->info($info);
-			if(isset($alert)) $this->alert($alert);
-			if(isset($error)) $this->error($error);
+			
+			if (isset($info)) {
+				$this->info($info);
+			}
+			if (isset($alert)) {
+				$this->alert($alert);
+			}
+			if (isset($error)) {
+				$this->error($error);
+			}
+
 			include("app/view/$view.php");
 			include("app/view/footer.php");
 		}
