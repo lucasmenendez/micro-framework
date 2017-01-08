@@ -1,100 +1,70 @@
 <?php 
 
 	class dashboardController extends Controller {
-
 		public function index() {
-			
 			$render_data['title'] = "Home";
 			$this->render('index', $render_data);
-
 		}
 
-
 		public function login() {
+			$render_data = array(
+				"title"	=> "Login"
+			);
 
 			if (isset($_POST['action']) && $_POST['action'] == "login") {
-
-				$user = User::getByUsername($_POST['user_username']);
 				extract($_POST);
+				$render_data['error'] = "Wrong username. User not found.";
+				
+				if (User::exist($username)) {
+					$user = User::getByUsername($username);
+					if ($user->password == hash("sha256", $password)) {
+						$_SESSION["username"] = $username;
 
-				if ($user->user_username == $user_username && $user->user_password == hash("sha512", md5($user_password))) {
-
-					$data = (object) array(
-						"username" => $user_username,
-						"expire" => time() + (60*30),
-						"token" => sha1(md5($user_username . (time() + (60*30)) ))
-					);
-
-					setcookie("session_data", json_encode($data), time() + (60 * 30), "/");
-					$_SESSION['username'] = $user_username;
-					header("Location: index.php");
-					die();
- 
-				} else {
-
-					$render_data['error'] = "Username or password wrong.";
-					$render_data['title'] = "Login";
-					$this->render("login", $render_data);
-
+						header("Location: index.php");
+						die();
+					} else {
+						$render_data['error'] = "Wrong password. Access denied.";
+					}
 				}
-
-			} else {
-
-				$render_data['title'] = "Login";
-				$this->render("login", $render_data);
-
 			}
-
+			
+			$this->render("login", $render_data);
 		}
 
 		public function profile() {
+			$username	= $_SESSION['username'];
+			$user		= User::getByUsername($username);
 
-			$session = json_decode($_COOKIE['session_data']);
+			if (isset($_POST['action']) && $_POST['action'] == 'update') {
+				if (isset($_POST['oldpassword']) && isset($_POST['newpassword'])) {	
+					extract($_POST);
 
-			if ($session->token == sha1(md5($session->username . $session->expire))) {
-
-				$user = User::getByUsername($session->username);
-
-				if (isset($_POST['action']) && $_POST['action'] == 'update') {
-
-					if ($user->user_password == sha1(md5($_POST['oldpassword']))) {
-
-						$user->user_password = sha1(md5($_POST['newpassword']));
+					if ($user->password == hash('sha256', $_POST['oldpassword'])) {
+						$user->password = hash('sha256', $_POST['newpassword']);
 
 						if ($user->update()) {
 							$render_data['info'] = "User updated.";
 						} else {
 							$render_data['error'] = "We have a problem updating your user account.";
 						}
-
 					} else {
-
 						$render_data['alert'] = "Wrong password, try again.";
-					
-					}		
-
+					}
+				} else {
+					$render_data['alert'] = "Both passwords required.";
 				}
+			}
 
-				$render_data['data'] = (array)$user;
-				$render_data['title'] = "My profile";
-				$this->render('profile', $render_data);	
-			
-			} else {
+			$render_data['data'] = (array)$user;
+			$render_data['title'] = "My profile";
 
-				header("Location: index.php?c=dashboard&a=login");
-				die();
-
-			}	
-
+			$this->render('profile', $render_data);	
 		}
 
 		public function logout() {
-
 			unset($_COOKIE['session_data']);
 			setcookie("session_data", null, (time() - 3600), "/");
 			session_destroy();
 			header('Location: index.php');
-
 		}
-
 	}

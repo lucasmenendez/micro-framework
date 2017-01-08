@@ -6,19 +6,20 @@
 		<title><?= $title ?></title>
 	</head>
 	<body>
-
 		<header>
 			<h1><?= $title ?></h1>
 			<?php if ($this->auth()) { ?>
 				<nav>
-					<li><a href="index.php">Home</a></li>
+					<ul>
+						<li><a href="index.php">Home</a></li>
+						<li>Hi, <?= $_SESSION['username'] ?>.
+							<ul>
+								<li><a id="profile" href="index.php?c=dashboard&a=profile">Profile</a></li>
+								<li><a id="logout" href="index.php?c=dashboard&a=logout">Log Out</a></li>
+							</ul>
+						</li>
+					</ul>
 				</nav>
-				<ul>Hi, <?= $_SESSION['username'] ?>.
-					<li><a id="profile" href="index.php?c=dashboard&a=profile">Profile</a></li>
-					<li><a id="logout" href="index.php?c=dashboard&a=logout">Log Out</a></li>
-				</ul>
 			<?php } ?>
 		</header>
-
 		<section>
-	
