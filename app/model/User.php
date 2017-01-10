@@ -3,21 +3,24 @@
 		public $id;
 		public $username;
 		public $password;
+		public $admin;
+		
 		private $db;
-		function __construct($id = null, $username = null, $password = null) {
+		function __construct($id = null, $username = null, $password = null, $admin = null) {
 			$this->id = $id;
 			$this->username = $username;
 			$this->password = $password;
+			$this->admin	= $admin;
 	
 			$this->db = new DB();
 		}
 
 		public function create() {
-			return $this->db->run("INSERT INTO users (username, password) VALUES (?,?)", array($this->username, $this->password));
+			return $this->db->run("INSERT INTO users (username, password, admin) VALUES (?,?,?)", array($this->username, $this->password, $this->admin));
 		}
 
 		public function update() {
-			return $this->db->run("UPDATE users SET password = ? WHERE username = ? AND id = ?", array($this->password, $this->username, $this->id));
+			return $this->db->run("UPDATE users SET password = ?, admin = ? WHERE username = ? AND id = ?", array($this->password, $this->admin, $this->username, $this->id));
 		}
 
 		public function delete() {
