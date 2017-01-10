@@ -13,7 +13,7 @@
 		}
 
 		public function create() {
-			return $this->db->run("INSERT INTO users (username, password, id) VALUES (?,?,?)", array($this->username, $this->password, $this->id));
+			return $this->db->run("INSERT INTO users (username, password) VALUES (?,?)", array($this->username, $this->password));
 		}
 
 		public function update() {
