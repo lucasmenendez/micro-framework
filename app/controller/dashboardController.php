@@ -15,7 +15,7 @@
 			);
 
 			if (isset($_POST['action']) && $_POST['action'] == "login") {
-				$validForm = $this->checkForm($_POST, array("username", "password"));
+				$validForm = $this->checkForm(array("username", "password"));
 
 				if ($validForm) {
 					extract($_POST);
@@ -45,7 +45,7 @@
 			$user		= User::getByUsername($username);
 
 			if (isset($_POST['action']) && $_POST['action'] == 'update') {
-				$validForm = $this->checkForm($_POST, array("oldpassword", "newpassword"));
+				$validForm = $this->checkForm(array("oldpassword", "newpassword"));
 
 				if ($validForm) {	
 					extract($_POST);

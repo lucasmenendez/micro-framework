@@ -33,7 +33,12 @@
 			return User::getByUsername($username);
 		}
 
-		public function checkForm($input, $needles) {
+		public function checkAction($action) {
+			return isset($_POST[$action]);
+		}
+	
+		public function checkForm($needles) {
+			$input = $_POST;
 			foreach ($needles as $needle) {
 				$found = false;
 				foreach ($input as $key => $value) {
