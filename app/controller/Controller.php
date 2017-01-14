@@ -34,7 +34,7 @@
 		}
 
 		public function checkAction($action) {
-			return isset($_POST[$action]);
+			return isset($_POST["action"]) && $_POST["action"] == $action;
 		}
 	
 		public function checkForm($needles) {
