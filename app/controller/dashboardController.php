@@ -2,7 +2,10 @@
 
 	class dashboardController extends Controller {
 		public function index() {
-			$render_data['title'] = "Home";
+			$render_data = array(
+				"title" => "Home"
+			);
+
 			$this->render('index', $render_data);
 		}
 
@@ -12,19 +15,25 @@
 			);
 
 			if (isset($_POST['action']) && $_POST['action'] == "login") {
-				extract($_POST);
-				$render_data['error'] = "Wrong username. User not found.";
-				
-				if (User::exist($username)) {
-					$user = User::getByUsername($username);
-					if ($user->password == hash("sha256", $password)) {
-						$_SESSION["username"] = $username;
+				$validForm = $this->checkForm($_POST, array("username", "password"));
 
-						header("Location: index.php");
-						die();
-					} else {
-						$render_data['error'] = "Wrong password. Access denied.";
+				if ($validForm) {
+					extract($_POST);
+					$render_data['error'] = "Wrong username. User not found.";
+					
+					if (User::exist($username)) {
+						$user = User::getByUsername($username);
+						if ($user->password == hash("sha256", $password)) {
+							$_SESSION["username"] = $username;
+
+							header("Location: index.php");
+							die();
+						} else {
+							$render_data['error'] = "Wrong password. Access denied.";
+						}
 					}
+				} else {
+					$render_data["error"] = "Username and password required.";
 				}
 			}
 			
@@ -36,7 +45,9 @@
 			$user		= User::getByUsername($username);
 
 			if (isset($_POST['action']) && $_POST['action'] == 'update') {
-				if (isset($_POST['oldpassword']) && isset($_POST['newpassword'])) {	
+				$validForm = $this->checkForm($_POST, array("oldpassword", "newpassword"));
+
+				if ($validForm) {	
 					extract($_POST);
 
 					if ($user->password == hash('sha256', $_POST['oldpassword'])) {

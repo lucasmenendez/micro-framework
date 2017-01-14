@@ -28,6 +28,29 @@
 			return false;
 		}
 
+		public function currentUser() {
+			$username = $_SESSION["username"];
+			return User::getByUsername($username);
+		}
+
+		public function checkForm($input, $needles) {
+			foreach ($needles as $needle) {
+				$found = false;
+				foreach ($input as $key => $value) {
+					if ($needle == $key) {
+						$found = (!is_null($value) && $value != "");
+						break;
+					}
+				}
+
+				if (!$found) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		protected function info($msg) {
 			echo "<p id='message' class='info' />$msg</p>";
 		}
