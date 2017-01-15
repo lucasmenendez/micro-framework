@@ -18,8 +18,12 @@
 			}
 
 			include("app/view/$view.php");
+
+			if (isset($injection)) {
+				$this->inject($injection);
+			}
 			include("app/view/footer.php");
-		}
+		}		
 
 		public function auth() {
 			if (isset($_SESSION['username'])) {
@@ -71,6 +75,12 @@
 
 		protected function error($msg) {
 			echo "<p id='message' class='error' />$msg</p>";
+		}
+
+		protected function inject($injection) {
+			$json		= json_encode($injection);
+			$snippet	= "<script>injection = JSON.parse('%s');</script>";
+			echo sprintf($snippet, $json);	
 		}
 
 		public function errorPage($render_data) {

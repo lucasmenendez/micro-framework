@@ -44,6 +44,10 @@
 			$username	= $_SESSION['username'];
 			$user		= User::getByUsername($username);
 
+			$render_data = array(
+				"title"	=> "My profile",
+				"injection" => $user
+			);
 			if (isset($_POST['action']) && $_POST['action'] == 'update') {
 				$validForm = $this->checkForm(array("oldpassword", "newpassword"));
 
@@ -67,8 +71,6 @@
 			}
 
 			$render_data['data'] = (array)$user;
-			$render_data['title'] = "My profile";
-
 			$this->render('profile', $render_data);	
 		}
 
