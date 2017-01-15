@@ -24,7 +24,7 @@
 	$action		= "index";
 	$temp		= new Controller;
 
-	if ($temp->auth()) {
+	if ($temp->checkUser()) {
 		if (isset($_GET['c']) && !empty($_GET['c'])) {
 			$controller = sprintf("%sController", $_GET['c']);
 		}
@@ -41,9 +41,9 @@
 		$object->$action();
 	} else {
 		$render_data = array(
-			"title"	=> "Error 404",
-			"info"	=> "File not found."
+			"title"		=> "Error 404",
+			"content"	=> "File not found."
 		);
 
-		$temp->errorPage($render_data);
+		$temp->render("error", $render_data);
 	}

@@ -8,7 +8,7 @@
 	<body>
 		<header>
 			<h1><?= $title ?></h1>
-			<?php if ($this->auth()) { ?>
+			<?php if ($this->checkUser()) { ?>
 				<nav>
 					<ul>
 						<li><a href="index.php">Home</a></li>

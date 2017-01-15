@@ -1,5 +1,4 @@
 <?php 
-
 	class dashboardController extends Controller {
 		public function index() {
 			$render_data = array(
@@ -63,7 +62,11 @@
 							$render_data['error'] = "We have a problem updating your user account.";
 						}
 					} else {
-						$render_data['alert'] = "Wrong password, try again.";
+						$this->redirectTo("index.php", array(
+							"type"		=> "alert",
+							"content"	=> "Wrong password, try again."
+						));
+//						$render_data['alert'] = "Wrong password, try again.";
 					}
 				} else {
 					$render_data['alert'] = "Both passwords required.";
