@@ -19,7 +19,5 @@ Little MVC framework to start working on any front&backend proyect
     define('DB_PASS', '<pass>');
     define('DB_NAME', '<dbname>');
 
-    define('SALT_PASSWORD', '<salt>');
-
     date_default_timezone_set('<timezone>');
 ```
