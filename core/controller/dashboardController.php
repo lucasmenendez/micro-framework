@@ -62,11 +62,11 @@
 							$render_data['error'] = "We have a problem updating your user account.";
 						}
 					} else {
-						$this->redirectTo("index.php", array(
-							"type"		=> "alert",
-							"content"	=> "Wrong password, try again."
-						));
-//						$render_data['alert'] = "Wrong password, try again.";
+					//	$this->redirectTo("index.php", array(
+					//		"type"		=> "alert",
+					//		"content"	=> "Wrong password, try again."
+					//	));
+						$render_data['alert'] = "Wrong password, try again.";
 					}
 				} else {
 					$render_data['alert'] = "Both passwords required.";
@@ -78,8 +78,7 @@
 		}
 
 		public function logout() {
-			unset($_COOKIE['session_data']);
-			setcookie("session_data", null, (time() - 3600), "/");
+			unset($_SESSION['username']);
 			session_destroy();
 			header('Location: index.php');
 		}
