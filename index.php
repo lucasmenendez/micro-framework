@@ -7,14 +7,25 @@
 	include("app/config.php");
 
 	function __autoload ($class) {
-		$is_controller	= is_file("app/controller/$class.php");
+		$is_core_controller	= is_file("core/controller/$class.php");
+		$is_controller		= is_file("app/controller/$class.php");
+
+		$is_core_model	= is_file("core/model/$class.php");
 		$is_model		= is_file("app/model/$class.php");
+		
+		$is_core_lib	= is_file("core/lib/$class.php");
 		$is_lib			= is_file("app/lib/$class.php");
 
-		if ($is_controller) {
+		if ($is_core_controller) {
+			include("core/controller/$class.php");
+		} else if ($is_controller) {
 			include("app/controller/$class.php");
+		} else if ($is_core_model) {
+			include("core/model/$class.php");
 		} else if ($is_model) {
 			include("app/model/$class.php");
+		} else if ($is_core_lib) {
+			include_once("core/lib/$class.php");
 		} else if ($is_lib) {
 			include_once("app/lib/$class.php");
 		}

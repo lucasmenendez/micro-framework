@@ -1,15 +1,56 @@
 <?php 
 	class Controller {
+		private $header_view;
+		private $footer_view;
+
+		function __construct() {
+			$this->header_view	= "core/view/header.php";
+			$this->footer_view	= "core/view/footer.php";
+
+			$header_view	= "app/view/header.php";
+			$footer_view	= "app/view/footer.php";
+
+			if (is_file($header_view)) {
+				$this->header_view = $header_view;
+			}
+
+			if (is_file($footer_view)) {
+				$this->footer_view = $footer_view;
+			}
+		}
+
 		public function render($view, $render_data = array()) {
+			$core_view	= sprintf("core/view/%s.php", $view);
+			$view		= sprintf("app/view/%s.php", $view);
+
+			$is_core_view	= is_file($core_view);
+			$is_view		= is_file($view);
+
+			if (!$is_core_view && !$is_view) {
+				$render_data = array(
+					"title"		=> "Error 404",
+					"content"	=> "File not found."
+				);
+
+				$this->render("error", $render_data);
+				return;
+			}
+
 			if (!empty($render_data)) {
 				extract($render_data);
 			}
 
-			include("app/view/header.php");
+			include($this->header_view);
 			$this->catchException($render_data);
-			include("app/view/$view.php");
+			
+			if ($is_core_view) {
+				include($core_view);
+			} else if ($is_view) {
+				include($view);
+			}
+			
 			if (isset($injection)) $this->inject($injection);
-			include("app/view/footer.php");
+			include($this->footer_view);
 		}		
 
 		public function currentUser() {
