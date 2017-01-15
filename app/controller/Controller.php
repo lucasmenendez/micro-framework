@@ -39,6 +39,11 @@
 	
 		public function checkForm($needles) {
 			$input = $_POST;
+			
+			if (!is_array($needles)) {
+				$needles = array($needles);
+			}
+
 			foreach ($needles as $needle) {
 				$found = false;
 				foreach ($input as $key => $value) {
