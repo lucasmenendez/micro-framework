@@ -27,28 +27,30 @@
 			return false;
 		}
 
-		public function checkAction($action) {
-			return isset($_POST["action"]) && $_POST["action"] == $action;
-		}
+		public function contains($haystack, $needles) {
+			foreach ($haystack as $key => $value) {
+				$needles = (!is_array($needles)) ? array($needles) : $needles;
 
-		public function checkArgs($haystack, $needles) {
-			if (!is_array($needles)) $needles = array($needles);
-
-			foreach ($needles as $needle) {
-				$found = false;
-				foreach ($haystack as $key => $value) {
-					if ($needle == $key) {
-						$found = (!is_null($value) && $value != "");
-						break;
+				foreach ($needles as $index => $needle) {
+					if ($key == $needle) {
+						unset($needles[$index]);
 					}
 				}
-
-				if (!$found) {
-					return false;
+			
+				if (is_array($value)) {
+					$needles = $this->contains($value, $needles);
 				}
 			}
 
-			return true;
+			return $needles;
+		}
+
+		public function checkArgs($haystack, $needles) {
+			return count($this->contains($haystack, $needles)) == 0;
+		}
+
+		public function checkAction($action) {
+			return isset($_POST["action"]) && $_POST["action"] == $action;
 		}
 
 		public function checkForm($needles) {
