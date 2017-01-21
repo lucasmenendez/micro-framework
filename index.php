@@ -6,7 +6,7 @@
 	session_start();
 	include("app/config.php");
 
-	function __autoload ($class) {
+	spl_autoload_register(function ($class) {
 		$is_core_controller	= is_file("core/controller/$class.php");
 		$is_controller		= is_file("app/controller/$class.php");
 
@@ -29,7 +29,7 @@
 		} else if ($is_lib) {
 			include_once("app/lib/$class.php");
 		}
-	}
+	});
 
 	$controller	= "dashboardController";
 	$action		= "index";
