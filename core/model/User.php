@@ -49,6 +49,40 @@
 			return $user;
 		}
 
+		public static function getDetails($id) {
+			$db = new DB();
+			$db->run("SELECT * FROM users WHERE username = ?", array($username));
+			
+			$user = new User;
+			foreach ($db->result()[0] as $attr => $value) {
+				$user->$attr = $value;
+			}
+			
+			$result					= (array)$user;
+			$result['clients']		= Client::getByUser($user->id);
+			$result['appointments']	= Appointment::getByUser($user->id);
+			
+			return $user;
+		}
+
+		public static function getAll() {
+			$db		= new DB();
+			$users	= [];
+		
+			if ($db->run("SELECT * FROM users")) {
+				$results = $db->result();
+				foreach ($results as $res) {
+					$user = new User;
+
+					foreach ($res as $attr => $value) {
+						$user->$attr = $value;
+					}
+					$users[] = $user;
+				}
+			}
+			return $users;
+		}
+
 		public static function exist($username) {
 			$db = new DB();
 			$db->run("SELECT count('x') AS count FROM users WHERE username = ?", array($username));
