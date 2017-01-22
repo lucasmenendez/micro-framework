@@ -1,7 +1,11 @@
-## First steps
+# Appointment manager
 
-#### Create following folders into `app` folder:
-- `controller`: Contains controllers with views logic. **Important:** controllers files must be called `<name>Controller.php`.
-- `model`: Contains database models abstractions.
-- `view`: Contains templates. You can overwrite `core` views creating again here.
-- `lib`: Contains user libs and helpers.
+### Features
+- Create, edit and delete appoinments and clients.
+- Profile users page.
+- Appointments joined with clients.
+- Users has their owns appointments and clients.
+- Today, tomorrow and calendar views.
+
+### Installation
+- Check `micro-framework` installation [here](https://github.com/lucasmenendez/micro-framework).
