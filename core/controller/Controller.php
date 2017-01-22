@@ -19,6 +19,18 @@
 			}
 		}
 
+		public function stall($msg = null) {
+			echo "<b>Stall: </b>";
+			if (!is_null($msg)) {
+				echo "<pre>";
+				var_dump($msg);
+				echo "</pre>";
+			} else {
+				echo "No message provided.";
+			}
+			die();
+		}
+
 		public function render($view, $render_data = array()) {
 			$core_view	= sprintf("core/view/%s.php", $view);
 			$view		= sprintf("app/view/%s.php", $view);
@@ -107,8 +119,9 @@
 
 			if (is_null($data)) {
 				extract($_SESSION);
+				$types = array("info", "alert", "error");
 
-				$is_type	= isset($type) && ($type == "info" || $type == "alert" || $type == "error");
+				$is_type	= isset($type) && in_array($type, $types);
 				$is_content	= isset($content) && !is_null($content);
 
 				if ($is_type && $is_content) {
@@ -138,9 +151,11 @@
 
 		public function redirectTo($uri, $exception = array()) {
 			if (!empty($exception)) {
+				$types = array("info", "alert", "error");
+				
 				$type		= isset($exception['type']) ? $exception['type'] : null;
 				$content	= isset($exception['content']) ? $exception['content'] : false;
-				$valid_type	= $type == "ok" || $type == "alert" || $type == "error";
+				$valid_type	= in_array($type, $types);
 
 				if ($valid_type && $content) {
 					$_SESSION['type']		= $type;
@@ -148,7 +163,8 @@
 				}
 			}
 
-			header(sprintf("Location: %s", $uri));
+			$header = sprintf("Location: %s", $uri);
+			header($header);
 			die();
 		}
 

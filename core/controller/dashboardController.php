@@ -62,10 +62,6 @@
 							$render_data['error'] = "We have a problem updating your user account.";
 						}
 					} else {
-					//	$this->redirectTo("index.php", array(
-					//		"type"		=> "alert",
-					//		"content"	=> "Wrong password, try again."
-					//	));
 						$render_data['alert'] = "Wrong password, try again.";
 					}
 				} else {
