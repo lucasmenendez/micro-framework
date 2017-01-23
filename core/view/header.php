@@ -11,11 +11,11 @@
 			<?php if ($this->checkUser()) { ?>
 				<nav>
 					<ul>
-						<li><a href="index.php">Home</a></li>
+						<li><a href="/">Home</a></li>
 						<li>Hi, <?= $_SESSION['username'] ?>.
 							<ul>
-								<li><a id="profile" href="index.php?c=dashboard&a=profile">Profile</a></li>
-								<li><a id="logout" href="index.php?c=dashboard&a=logout">Log Out</a></li>
+								<li><a id="profile" href="/dashboard/profile">Profile</a></li>
+								<li><a id="logout" href="/dashboard/logout">Log Out</a></li>
 							</ul>
 						</li>
 					</ul>

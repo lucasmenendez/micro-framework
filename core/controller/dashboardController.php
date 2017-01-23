@@ -24,9 +24,7 @@
 						$user = User::getByUsername($username);
 						if ($user->password == hash("sha256", $password)) {
 							$_SESSION["username"] = $username;
-
-							header("Location: index.php");
-							die();
+							$this->redirectTo("/");
 						} else {
 							$render_data['error'] = "Wrong password. Access denied.";
 						}
@@ -76,6 +74,6 @@
 		public function logout() {
 			unset($_SESSION['username']);
 			session_destroy();
-			header('Location: index.php');
+			header('Location: /');
 		}
 	}
