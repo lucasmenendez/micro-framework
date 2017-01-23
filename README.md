@@ -23,4 +23,12 @@ Little MVC framework to start working on any front&backend proyect
 - `lib`: Contains user libs and helpers.
 
 #### Friendly routes
-1. 
+- By default `.htaccess` file make friendly user uri redirections with structure:
+```
+	/{controller}/{action}/{param}/{value}
+```
+
+- If you want, you can revert this redirections deleting `.htaccess` and refactoring all url to this structure:
+```
+	/index.php?c={controller}&a={action}&{param}={value}
+```
